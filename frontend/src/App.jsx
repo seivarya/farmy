@@ -1,8 +1,80 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
+  
+const translations = {
+  en: {
+    farmer: "FARMER REGISTRATION",
+    portal: "FARMER PORTAL / REGISTRATION",
+    create: "CREATE ACCOUNT",
+    subtitle: "Register as a farmer to access the crop procurement portal.",
+    fullname: "FULL NAME",
+    mobile: "MOBILE NUMBER",
+    password: "CREATE PASSWORD",
+    confirm: "CONFIRM PASSWORD",
+    phName: "Enter your full name",
+    phMobile: "Enter mobile number",
+    phPass: "Create password",
+    phConfirm: "Confirm your password",
+    btn: "REGISTER",
+    already: "Already have an account?",
+    loginHere: "Login here."
+  },
+  hi: {
+    farmer: "किसान पंजीकरण",
+    create: "खाता बनाएं",
+    portal: "किसान पोर्टल / पंजीकरण",
+    subtitle: "फसल खरीद पोर्टल तक पहुंचने के लिए किसान के रूप में पंजीकरण करें।",
+    fullname: "पूरा नाम",
+    mobile: "मोबाइल नंबर",
+    password: "पासवर्ड बनाएं",
+    confirm: "पासवर्ड की पुष्टि करें",
+    phName: "अपना पूरा नाम दर्ज करें",
+    phMobile: "मोबाइल नंबर दर्ज करें",
+    phPass: "पासवर्ड बनाएं",
+    phConfirm: "पासवर्ड की पुष्टि करें",
+    btn: "पंजीकरण करें",
+   already: "पहले से ही खाता है?",
+    loginHere: "यहां लॉगिन करें।"
+  },
+  te: {
+    farmer: "రైతు నమోదు",
+    create: "ఖాతాను సృష్టించండి",
+    portal: "రైతు పోర్టల్ / నమోదు",
+    subtitle: "పంట సేకరణ పోర్టల్‌ను యాక్సెస్ చేయడానికి రైతుగా నమోదు చేసుకోండి.",
+    fullname: "పూర్తి పేరు",
+    mobile: "మొబైల్ నంబర్",
+    password: "పాస్‌వర్డ్ సృష్టించండి",
+    confirm: "పాస్‌వర్డ్‌ను నిర్ధారించండి",
+    phName: "మీ పూర్తి పేరు నమోదు చేయండి",
+    phMobile: "మొబైల్ నంబర్ నమోదు చేయండి",
+    phPass: "పాస్‌వర్డ్ సృష్టించండి",
+    phConfirm: "పాస్‌వర్డ్ నిర్ధారించండి",
+    btn: "నమోదు చేసుకోండి",
+    already: "ఇప్పటికే ఖాతా ఉందా?",
+    loginHere: "ఇక్కడ లాగిన్ చేయండి."
+  },
+  es: {
+    farmer: "REGISTRO DE AGRICULTORES",
+    create: "CREAR CUENTA",
+    portal: "PORTAL DEL AGRICULTOR / REGISTRO",
+    subtitle: "Regístrese como agricultor para acceder al portal.",
+    fullname: "NOMBRE COMPLETO",
+    mobile: "NÚMERO DE MÓVIL",
+    password: "CREAR CONTRASEÑA",
+    confirm: "CONFIRMAR CONTRASEÑA",
+    phName: "Ingrese su nombre completo",
+    phMobile: "Ingrese número móvil",
+    phPass: "Ingrese contraseña",
+    phConfirm: "Confirmar contraseña",
+    btn: "REGISTRAR",    already: "¿Ya tienes una cuenta?",
+    loginHere: "Inicia sesión aquí.",
+    otpSuccess: "OTP verified"
 
-function App() {
+  } };
+  function App() {
+  const [lang, setLang] = useState('en');
+  const t = (key) => translations[lang][key] || key;
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -68,9 +140,17 @@ function App() {
     setCountdown(60);
   };
 
-  return (
-    <div className="page">
-      {/* LEFT PANEL */}
+ return (
+  <div className="page">
+    <div style={{position:'absolute', top:10, right:10, zIndex:999}}>
+      <select value={lang} onChange={(e) => setLang(e.target.value)} style={{padding:"5px"}}>
+  <option value="en">English</option>
+  <option value="hi">Hindi</option>
+  <option value="te">Telugu</option>
+  <option value="es">Spanish</option>
+</select>
+    </div>
+
       <section className="left-panel">
         <div className="brand">
           <div className="brand-icon">🌱</div>
@@ -105,7 +185,7 @@ function App() {
               </p>
             </div>
 
-            <div className="left-info-card feature-card">
+            <div className="portal-label">
               <span className="info-badge">SUPPORT</span>
               <h4>Guidance at every stage.</h4>
               <p>
@@ -141,27 +221,24 @@ function App() {
           <div className="portal-icon">🌾</div>
 
           <h2>
-            CREATE
-            <br />
-            ACCOUNT
-          </h2>
+ {translations[lang].create}
+</h2>
 
-          <p className="subtitle">
-            Register as a farmer to access the crop procurement portal.
-          </p>
-
+          
           <form onSubmit={otpVerified ? undefined : handleRegister}>
-            {!otpSent && !otpVerified ? (
-              <>
-                {/* NAME */}
+            
+              <p className="subtitle">
+ {translations[lang].subtitle}
+</p>
+              
                 <div className="input-group">
-                  <label>FULL NAME*</label>
+                  <label>{translations[lang].fullname}</label>
 
                   <div className="input-wrapper">
                     <span className="input-icon">♙</span>
                     <input
                       type="text"
-                      placeholder="Enter your full name"
+                      placeholder={translations[lang].phName}
                       required
                     />
                   </div>
@@ -169,36 +246,38 @@ function App() {
 
                 {/* MOBILE */}
                 <div className="input-group">
-                  <label>MOBILE NUMBER*</label>
+                 <label>{translations[lang].mobile}</label>
 
                   <div className="input-wrapper">
+                  
                     <span className="input-icon">☎</span>
                     <input
                       type="tel"
                       inputMode="numeric"
                       maxLength={10}
-                      placeholder="Enter mobile number"
+                     placeholder={translations[lang].phMobile}
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
                       required
                     />
                   </div>
                 </div>
+                </form>
 
                 {/* PASSWORD */}
                 <div className="input-group">
-                  <label>CREATE PASSWORD*</label>
+                  <label>{translations[lang].password}</label>
 
                   <div className="input-wrapper">
                     <span className="input-icon">♙</span>
 
                     <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Create a password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
+  type={showPassword? "text" : "password"}
+  placeholder={translations[lang].phPass}
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  required
+/>
 
                     <button
                       type="button"
@@ -212,18 +291,18 @@ function App() {
 
                 {/* CONFIRM PASSWORD */}
                 <div className="input-group">
-                  <label>CONFIRM PASSWORD*</label>
+                  <label>{translations[lang].confirm}*</label>
 
                   <div className="input-wrapper">
                     <span className="input-icon">♙</span>
 
                     <input
-                      type={showConfirmPassword ? "text" : "password"}
-                      placeholder="Confirm your password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      required
-                    />
+  type={showPassword? "text" : "password"}
+  placeholder={translations[lang].phConfirm}
+  value={confirmPassword}
+  onChange={(e) => setConfirmPassword(e.target.value)}
+  required
+/>
 
                     <button
                       type="button"
@@ -243,13 +322,9 @@ function App() {
 
                 {phoneError ? <p className="password-error">{phoneError}</p> : null}
 
-                <button type="submit" className="register-button">
-                  REGISTER
-                  <span>→</span>
-                </button>
-              </>
-            ) : null}
-
+<button type="submit" className="register-button">
+  {translations[lang].btn}
+</button>
             {otpSent && !otpVerified ? (
               <div className="otp-box">
                 <div className="otp-header">
@@ -296,15 +371,15 @@ function App() {
                 </button>
               </div>
             ) : null}
-
-            {otpVerified ? (
-              <div className="otp-success-box">
-                <span className="otp-success-icon">✓</span>
-                <p>OTP verified successfully. Your registration is complete. Kindly login.</p>
-              </div>
-            ) : null}
-          </form>
-
+          {otpVerified && (
+            <div className="otp-success-box">
+              <span className="otp-success-icon">✓</span>
+              <p>OTP verified successfully. Your registration is complete. Kindly login.</p>
+            </div>
+        )}
+      
+            
+  
           <p className="login-text">
             Already have an account?
             <Link to="/login"> Login here.</Link>
@@ -317,6 +392,8 @@ function App() {
             <span>◓</span>
             <span>·</span>
           </div>
+ 
+
 
           <div className="website-description">
             <p className="desc-label">OUR MISSION</p>
