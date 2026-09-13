@@ -1,6 +1,6 @@
 import "./Loading.css";
 
-// Full-page loading spinner shown during auth verification
+// full-page loading spinner
 function Loading() {
   return (
     <div className="loading-container">

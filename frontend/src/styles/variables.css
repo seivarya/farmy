@@ -1,5 +1,5 @@
 :root {
-  /* Colors */
+  /* colors */
   --color-primary-dark: #174633;
   --color-primary-darker: #133a2a;
   --color-primary-text: #173c2b;
@@ -18,18 +18,30 @@
   --color-error-bg: rgba(183, 50, 41, 0.08);
   --color-success: #15803d;
   --color-success-bg: rgba(21, 128, 61, 0.1);
+  --color-accent-blue: #2e6291;
+  --color-accent-blue-soft: #e8f1f9;
+  --color-accent-terracotta: #b85d45;
+  --color-accent-terracotta-soft: #faece6;
+  --color-accent-plum: #70516d;
+  --color-line: #d9d5cb;
+  --color-surface-muted: #f5f2eb;
 
-  /* Typography */
+  /* typography */
   --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: "Playfair Display", Georgia, serif;
+  --font-serif: "Fraunces", Georgia, serif;
 
-  /* Shadows */
+  /* shadows */
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.22);
   --shadow-gold: 0 12px 25px rgba(193, 149, 58, 0.25);
 
-  /* Transitions */
+  /* transitions */
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
+
+  /* reserve full rounding for avatars */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
 }

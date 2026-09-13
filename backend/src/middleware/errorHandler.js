@@ -1,12 +1,7 @@
-/**
- * Centralized Express error-handling middleware.
- * Formats errors, translates Mongoose validation and duplicate key codes (11000),
- * and prevents internal implementation details from leaking in production.
- */
 const errorHandler = (err, req, res, next) => {
   console.error(`[Error] ${req.method} ${req.originalUrl}:`, err.message || err);
 
-  // Mongoose duplicate key error (code 11000)
+  // duplicate database key
   if (err.code === 11000) {
     const duplicateField = Object.keys(err.keyValue || {})[0] || "field";
     if (duplicateField === "aadhaarFingerprint") {
@@ -24,7 +19,7 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // Mongoose schema validation error
+  // schema validation error
   if (err.name === "ValidationError") {
     const messages = Object.values(err.errors).map((e) => e.message);
     return res.status(400).json({
@@ -34,7 +29,7 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // CastError (invalid MongoDB ObjectId)
+  // invalid mongodb id
   if (err.name === "CastError") {
     return res.status(400).json({
       success: false,
@@ -42,7 +37,7 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // Default fallback status and response
+  // fallback response
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({
     success: false,
@@ -50,9 +45,6 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-/**
- * 404 Route Not Found middleware
- */
 const notFoundHandler = (req, res) => {
   res.status(404).json({
     success: false,

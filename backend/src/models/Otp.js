@@ -9,7 +9,14 @@ const otpSchema = new mongoose.Schema({
   },
   otp: {
     type: String,
-    required: true,
+    required() {
+      return this.provider === "local";
+    },
+  },
+  provider: {
+    type: String,
+    enum: ["local", "twilio_verify"],
+    default: "local",
   },
   purpose: {
     type: String,
@@ -27,9 +34,10 @@ const otpSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    // Document expires and is automatically purged from MongoDB after 5 minutes (300 seconds)
     expires: 300,
   },
 });
+
+otpSchema.index({ mobileNumber: 1, purpose: 1 });
 
 module.exports = mongoose.model("Otp", otpSchema);

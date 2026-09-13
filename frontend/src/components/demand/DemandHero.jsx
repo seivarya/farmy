@@ -1,11 +1,11 @@
 import { BuildingIcon } from "../common/Icons";
 import "./DemandHero.css";
 
-// Hero banner and top stat cards for the CropDemand page
+// hero banner and summary cards
 function DemandHero() {
   return (
     <>
-      {/* Hero banner */}
+      {/* hero banner */}
       <section className="demand-hero">
         <div className="demand-hero-icon">
           <BuildingIcon size={28} />
@@ -27,7 +27,7 @@ function DemandHero() {
         </div>
       </section>
 
-      {/* Top stat cards */}
+      {/* summary cards */}
       <section className="demand-stat-grid">
         <div className="demand-stat-card">
           <div className="stat-top">

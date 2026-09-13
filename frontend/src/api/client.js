@@ -10,7 +10,7 @@ const apiClient = axios.create({
   timeout: 10000,
 });
 
-// Request interceptor: inject JWT Bearer token if present
+// add the stored jwt to each request
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("farmy_token");
@@ -22,7 +22,7 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor: extract response data or format clear error message
+// unwrap responses and normalize errors
 apiClient.interceptors.response.use(
   (response) => response.data,
   (error) => {

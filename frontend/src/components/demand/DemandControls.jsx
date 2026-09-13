@@ -2,7 +2,7 @@ import { SearchIcon } from "../common/Icons";
 import { DEMAND_CATEGORIES } from "../../data/crops";
 import "./DemandControls.css";
 
-// Category tabs, sort controls, and search for filtering demand crops
+// demand crop filters
 function DemandControls({
   activeCategory,
   onCategoryChange,
@@ -13,7 +13,7 @@ function DemandControls({
 }) {
   return (
     <section className="demand-controls">
-      {/* Category filter tabs */}
+      {/* category filters */}
       <div className="demand-tabs">
         {DEMAND_CATEGORIES.map((cat) => (
           <button
@@ -26,7 +26,7 @@ function DemandControls({
         ))}
       </div>
 
-      {/* Sort + search row */}
+      {/* sort and search */}
       <div className="demand-search-row">
         <span className="sort-title">SORT:</span>
 

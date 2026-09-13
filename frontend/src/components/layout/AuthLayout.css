@@ -6,7 +6,7 @@
   color: var(--color-primary-text);
 }
 
-/* LEFT PANEL */
+/* left panel */
 
 .auth-left-panel {
   width: 45%;
@@ -20,7 +20,18 @@
   flex-direction: column;
 }
 
-/* Decorative background orbital arcs */
+.auth-left-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+
+/* decorative background arcs */
 .auth-left-panel::before {
   content: "";
   position: absolute;
@@ -94,7 +105,7 @@
   display: block;
 }
 
-/* Info stack & feature cards */
+/* info stack and feature cards */
 .auth-info-stack {
   margin-top: 30px;
   display: grid;
@@ -155,7 +166,7 @@
   text-transform: uppercase;
 }
 
-/* RIGHT PANEL */
+/* right panel */
 
 .auth-right-panel {
   width: 55%;
@@ -172,7 +183,7 @@
   padding: 20px 0;
 }
 
-/* RESPONSIVE DESIGN */
+/* responsive design */
 
 @media (max-width: 960px) {
   .auth-layout-page {

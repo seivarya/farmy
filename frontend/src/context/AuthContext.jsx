@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("farmy_farmer");
   }
 
-  // Validate stored token on mount
+  // validate stored token on mount
   useEffect(() => {
     async function verifySession() {
       if (!token) {

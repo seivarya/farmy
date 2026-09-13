@@ -8,4 +8,17 @@ const isValidDateOnly = (value) => {
   return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
 };
 
-module.exports = { isValidDateOnly };
+const isAtLeastAge = (value, minimumAge, asOf = new Date()) => {
+  if (!isValidDateOnly(value)) return false;
+
+  const [year, month, day] = value.split("-").map(Number);
+  const cutoff = new Date(Date.UTC(
+    asOf.getUTCFullYear() - minimumAge,
+    asOf.getUTCMonth(),
+    asOf.getUTCDate()
+  ));
+  const birthDate = new Date(Date.UTC(year, month - 1, day));
+  return birthDate <= cutoff;
+};
+
+module.exports = { isAtLeastAge, isValidDateOnly };

@@ -9,11 +9,11 @@ import {
   PhoneIcon,
   LockIcon,
   AlertCircleIcon,
-  InfoIcon,
   CheckCircleIcon,
 } from "../common/Icons";
 import { sendOtp, verifyOtp, registerFarmer } from "../../api/auth";
 import { useAuth } from "../../context/useAuth";
+import { getLatestEligibleBirthDate, isAtLeastAge } from "../../utils/date";
 import "./AuthForms.css";
 
 function RegisterForm() {
@@ -36,8 +36,8 @@ function RegisterForm() {
   const [countdown, setCountdown] = useState(60);
   const [otpVerified, setOtpVerified] = useState(false);
   const [otpError, setOtpError] = useState("");
-  const [simulatedOtpNotice, setSimulatedOtpNotice] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const latestEligibleBirthDate = getLatestEligibleBirthDate();
 
   useEffect(() => {
     if (!otpSent || countdown === 0) return;
@@ -49,7 +49,7 @@ function RegisterForm() {
     return () => clearInterval(timer);
   }, [otpSent, countdown]);
 
-  // Step 1: Submit Details & Request OTP
+  // submit registration details
   const handleInitiateRegister = async (e) => {
     e.preventDefault();
     setServerError("");
@@ -63,6 +63,10 @@ function RegisterForm() {
 
     if (!dateOfBirth) {
       setServerError("Please enter your date of birth.");
+      return;
+    }
+    if (!isAtLeastAge(dateOfBirth)) {
+      setServerError("You must be at least 25 years old to register.");
       return;
     }
 
@@ -83,17 +87,12 @@ function RegisterForm() {
 
     setIsSubmitting(true);
     try {
-      const res = await sendOtp(phoneNumber, "registration");
+      await sendOtp(phoneNumber, "registration");
       setOtpSent(true);
       setOtp("");
       setOtpVerified(false);
       setOtpError("");
       setCountdown(60);
-
-      if (res.devOtp) {
-        setSimulatedOtpNotice(`Dev OTP: ${res.devOtp}`);
-        setOtp(res.devOtp);
-      }
     } catch (err) {
       setServerError(err.message);
     } finally {
@@ -101,7 +100,7 @@ function RegisterForm() {
     }
   };
 
-  // Step 2: Verify OTP via Backend
+  // verify otp through the backend
   const handleVerifyOtp = async () => {
     if (!otp || otp.length < 4) {
       setOtpError("Please enter the 4-digit code.");
@@ -114,9 +113,8 @@ function RegisterForm() {
     try {
       await verifyOtp(phoneNumber, otp, "registration");
       setOtpVerified(true);
-      setSimulatedOtpNotice("");
 
-      // Finalize registration
+      // finalize registration
       const registerRes = await registerFarmer({
         fullname,
         dateOfBirth,
@@ -137,7 +135,7 @@ function RegisterForm() {
     }
   };
 
-  // Resend OTP
+  // resend otp
   const handleResendOtp = async () => {
     if (countdown > 0) return;
     setOtp("");
@@ -145,12 +143,8 @@ function RegisterForm() {
     setServerError("");
 
     try {
-      const res = await sendOtp(phoneNumber, "registration");
+      await sendOtp(phoneNumber, "registration");
       setCountdown(60);
-      if (res.devOtp) {
-        setSimulatedOtpNotice(`Dev OTP: ${res.devOtp}`);
-        setOtp(res.devOtp);
-      }
     } catch (err) {
       setOtpError(err.message);
     }
@@ -178,13 +172,6 @@ function RegisterForm() {
         </div>
       )}
 
-      {simulatedOtpNotice && (
-        <div className="auth-notice-banner" role="status">
-          <InfoIcon size={16} />
-          <span>{simulatedOtpNotice}</span>
-        </div>
-      )}
-
       {!otpSent && !otpVerified && (
         <form onSubmit={handleInitiateRegister}>
           <InputField
@@ -203,6 +190,7 @@ function RegisterForm() {
             type="date"
             value={dateOfBirth}
             onChange={(e) => setDateOfBirth(e.target.value)}
+            max={latestEligibleBirthDate}
             required
           />
 

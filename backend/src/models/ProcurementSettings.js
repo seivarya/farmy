@@ -11,7 +11,15 @@ const DEFAULT_TIME_SLOTS = [
 const procurementSettingsSchema = new mongoose.Schema(
   {
     key: { type: String, unique: true, default: "default", immutable: true },
-    timeSlots: { type: [String], required: true, default: DEFAULT_TIME_SLOTS },
+    timeSlots: {
+      type: [String],
+      required: true,
+      default: DEFAULT_TIME_SLOTS,
+      validate: {
+        validator: (timeSlots) => Array.isArray(timeSlots) && timeSlots.length > 0,
+        message: "At least one procurement time slot is required.",
+      },
+    },
     capacityPerSlot: { type: Number, required: true, default: 5, min: 1, max: 100 },
     updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Admin", default: null },
   },

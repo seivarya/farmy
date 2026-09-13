@@ -8,16 +8,16 @@ export const verifyOtp = (mobileNumber, otp, purpose = "registration") => {
   return apiClient.post("/auth/verify-otp", { mobileNumber, otp, purpose });
 };
 
-export const registerFarmer = ({ fullname, dateOfBirth, aadhaarNumber, mobileNumber, password, otp }) => {
-  return apiClient.post("/auth/register", { fullname, dateOfBirth, aadhaarNumber, mobileNumber, password, otp });
+export const registerFarmer = ({ fullname, dateOfBirth, aadhaarNumber, mobileNumber, password }) => {
+  return apiClient.post("/auth/register", { fullname, dateOfBirth, aadhaarNumber, mobileNumber, password });
 };
 
 export const loginFarmer = ({ mobileNumber, password }) => {
   return apiClient.post("/auth/login", { mobileNumber, password });
 };
 
-export const resetPassword = ({ mobileNumber, newPassword, otp }) => {
-  return apiClient.post("/auth/reset-password", { mobileNumber, newPassword, otp });
+export const resetPassword = ({ mobileNumber, newPassword }) => {
+  return apiClient.post("/auth/reset-password", { mobileNumber, newPassword });
 };
 
 export const getCurrentFarmer = () => {

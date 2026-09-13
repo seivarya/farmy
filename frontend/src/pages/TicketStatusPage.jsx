@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMyTickets, getTicket } from "../api/tickets";
 import BrandLogo from "../components/common/BrandLogo";
+import LanguageSelector from "../components/common/LanguageSelector";
 import { ArrowRightIcon, AlertCircleIcon } from "../components/common/Icons";
 import "./TicketStatusPage.css";
 
@@ -41,7 +42,14 @@ function TicketStatusPage() {
 
   return (
     <main className="ticket-page">
-      <header className="ticket-header"><BrandLogo /><button type="button" onClick={() => navigate("/dashboard")}>Back to dashboard</button></header>
+      <header className="ticket-header">
+        <BrandLogo />
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <LanguageSelector variant="light" />
+          <button type="button" onClick={() => navigate("/dashboard")}>Back to dashboard</button>
+        </div>
+      </header>
+
       <section className="ticket-panel">
         <p className="ticket-eyebrow">PROCUREMENT TRACKING</p>
         <h1>Ticket Status</h1>

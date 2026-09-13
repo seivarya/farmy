@@ -1,4 +1,4 @@
-/* CropDemandPage: full-screen page layout */
+/* crop demand page */
 
 .crop-demand-page {
   position: fixed;
@@ -14,7 +14,7 @@
   font-family: var(--font-sans);
 }
 
-/* Header */
+/* header */
 
 .crop-demand-header {
   display: flex;
@@ -60,7 +60,7 @@
   transform: rotate(90deg);
 }
 
-/* Crop cards grid */
+/* crop cards */
 
 .crop-grid {
   display: grid;
@@ -69,7 +69,7 @@
   margin-top: 20px;
 }
 
-/* No results */
+/* no results */
 
 .no-results {
   margin-top: 20px;
@@ -81,7 +81,7 @@
   background: white;
 }
 
-/* Why section */
+/* context */
 
 .why-section {
   margin-top: 25px;
@@ -113,7 +113,7 @@
 .why-grid strong { color: #304a3e; font-size: 11px; }
 .why-grid p     { margin: 7px 0 0; color: #7a817f; font-size: 10px; line-height: 1.45; }
 
-/* Footer CTA */
+/* call to action */
 
 .demand-footer {
   display: flex;
@@ -149,7 +149,7 @@
 
 .footer-proceed:hover { background: #127541; }
 
-/* Responsive */
+/* responsive */
 
 @media (max-width: 1200px) {
   .why-grid { grid-template-columns: repeat(2, 1fr); }

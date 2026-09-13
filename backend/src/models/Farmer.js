@@ -23,14 +23,14 @@ const farmerSchema = new mongoose.Schema(
       required: [true, "Date of birth is required"],
       match: [/^\d{4}-\d{2}-\d{2}$/, "Date of birth must follow YYYY-MM-DD format"],
     },
-    // Hackathon storage only: never serialize or return the full Aadhaar number.
+    // never serialize the full aadhaar number
     aadhaarEncrypted: { type: String, required: true, select: false },
     aadhaarFingerprint: { type: String, required: true, unique: true, select: false },
     aadhaarLast4: { type: String, required: true, match: [/^\d{4}$/] },
-    // Format/uniqueness checks are not UIDAI authentication.
+    // format checks are not uidai authentication
     identityVerificationStatus: {
       type: String,
-      // Only a future UIDAI-authorized integration may set this to "verified".
+      // only an authorized integration may set verified
       enum: ["self_declared", "officially_reviewed", "verified"],
       default: "self_declared",
     },
@@ -45,10 +45,6 @@ const farmerSchema = new mongoose.Schema(
   }
 );
 
-/**
- * Strips sensitive password field whenever document is serialized to JSON.
- * Protects against accidental leakage in HTTP responses.
- */
 farmerSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.password;
@@ -58,9 +54,6 @@ farmerSchema.methods.toJSON = function () {
   return obj;
 };
 
-/**
- * Compares plain candidate password with stored bcrypt hash.
- */
 farmerSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };

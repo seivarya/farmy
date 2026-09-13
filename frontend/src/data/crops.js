@@ -5,7 +5,7 @@
  * - CROP_OPTIONS: select dropdown entries (ProcurementForm)
  */
 
-// -- High-demand crops shown on the CropDemand page --
+// high-demand crops
 
 export const DEMAND_CROPS = [
   {
@@ -191,7 +191,7 @@ export const DEMAND_CROPS = [
 ];
 
 
-// -- MSP Schedule year labels --
+// msp year labels
 
 export const MSP_YEARS = [
   "2026-27", "2025-26", "2024-25", "2023-24", "2022-23", "2021-22",
@@ -200,7 +200,7 @@ export const MSP_YEARS = [
 ];
 
 
-// -- MSP historical price data per crop (matches MSP_YEARS indices) --
+// historical msp values
 
 export const MSP_CROPS = [
   { category: "KHARIF CROPS", name: "Paddy Common",         values: ["2,441","2,369","2,300","2,183","2,040","1,940","1,868","1,815","1,750","1,550","1,470","1,410","1,360","1,310","1,250","1,080","1,000"] },
@@ -233,7 +233,7 @@ export const MSP_CROPS = [
 ];
 
 
-// -- Crop options for the procurement form dropdown --
+// procurement crop options
 
 export const CROP_OPTIONS = [
   { value: "paddy",     label: "Paddy Common",           msp: "\u20B92,441/Qtl" },
@@ -255,7 +255,7 @@ export const CROP_OPTIONS = [
 ];
 
 
-// -- Category grouping helper for MSP table --
+// msp categories
 
 const MSP_CATEGORY_ORDER = ["KHARIF CROPS", "RABI CROPS", "COMMERCIAL CROPS"];
 
@@ -269,7 +269,7 @@ export function groupMspCropsByCategory(filteredCrops) {
 }
 
 
-// -- Category filter helpers for demand page --
+// demand category filters
 
 export const DEMAND_CATEGORIES = [
   { key: "all",        label: "All High Demand" },

@@ -1,9 +1,6 @@
 const rateLimit = require("express-rate-limit");
 
-/**
- * Standard API rate limiter to protect against spam / DoS.
- * Allows 100 requests per 15 minutes window.
- */
+// general api limit
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -15,11 +12,7 @@ const apiLimiter = rateLimit({
   },
 });
 
-/**
- * Strict rate limiter for Authentication & OTP endpoints.
- * Limits login attempts and OTP requests to prevent brute force attacks.
- * Allows 10 attempts per 10 minutes.
- */
+// auth and otp limit
 const authLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
   max: 10,

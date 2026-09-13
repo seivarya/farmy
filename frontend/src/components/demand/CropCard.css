@@ -1,4 +1,4 @@
-/* CropCard: individual crop demand card */
+/* demand crop card */
 
 .crop-card {
   padding: 20px;
@@ -12,7 +12,7 @@
   border-color: #e6c982;
 }
 
-/* Card header */
+/* card header */
 
 .crop-card-top {
   display: flex;
@@ -50,7 +50,7 @@
   font-weight: 700;
 }
 
-/* Crop title row */
+/* crop title */
 
 .crop-title {
   display: flex;
@@ -59,7 +59,7 @@
   margin-top: 12px;
 }
 
-/* Letter-initial box (replaces emoji) */
+/* crop initial */
 .crop-icon-box {
   width: 48px;
   height: 48px;
@@ -96,7 +96,7 @@
   color: #27905f;
 }
 
-/* Progress bar */
+/* progress */
 
 .progress-box {
   margin-top: 14px;
@@ -141,7 +141,7 @@
   );
 }
 
-/* Numeric stats */
+/* summary values */
 
 .crop-numbers {
   display: grid;
@@ -179,7 +179,7 @@
   font-weight: 700;
 }
 
-/* MSP row */
+/* msp value */
 
 .msp-row {
   display: flex;
@@ -196,7 +196,7 @@
 .msp-row strong { color: #287c50; font-size: 13px; }
 .msp-row span   { padding: 4px 7px; border-radius: 5px; background: #e2f2ff; color: #3a9bd8; font-size: 9px; font-weight: 700; }
 
-/* Purpose and benefit */
+/* purpose and benefit */
 
 .crop-purpose {
   margin-top: 9px;
@@ -219,7 +219,7 @@
   line-height: 1.4;
 }
 
-/* Action buttons */
+/* actions */
 
 .crop-actions {
   display: grid;

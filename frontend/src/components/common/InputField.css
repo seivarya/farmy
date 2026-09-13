@@ -19,7 +19,7 @@
   align-items: center;
   background: #fbf7f0;
   border: 1.5px solid #dfd3c0;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   transition: var(--transition-fast);
 }
 
@@ -48,7 +48,8 @@
   flex: 1;
   border: none;
   background: transparent;
-  padding: 14px 14px 14px 0;
+  min-width: 0;
+  padding: 14px 16px;
   font-size: 14.5px;
   color: var(--color-primary-text);
   outline: none;

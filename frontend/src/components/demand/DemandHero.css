@@ -1,4 +1,4 @@
-/* DemandHero: hero banner + stat cards */
+/* hero banner and summary cards */
 
 .demand-hero {
   display: flex;
@@ -74,7 +74,7 @@
   font-weight: 700;
 }
 
-/* Stat cards grid */
+/* summary card grid */
 
 .demand-stat-grid {
   display: grid;
@@ -134,7 +134,7 @@
   color: #f0524d;
 }
 
-/* Responsive */
+/* responsive */
 
 @media (max-width: 1200px) {
   .demand-stat-grid {

@@ -4,9 +4,10 @@ import { CROP_OPTIONS } from "../../data/crops";
 import { ArrowRightIcon } from "../common/Icons";
 import { submitProcurement } from "../../api/procurements";
 import { updateFarmerIdentity } from "../../api/auth";
+import { getLatestEligibleBirthDate } from "../../utils/date";
 import "./ProcurementForm.css";
 
-// Produce intake form — pre-fills farmer identity from auth context
+// pre-fill farmer identity from auth context
 function ProcurementForm({ onTicketCreated }) {
   const { farmer, updateFarmer } = useAuth();
 
@@ -22,6 +23,7 @@ function ProcurementForm({ onTicketCreated }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [identityData, setIdentityData] = useState({ dateOfBirth: "", aadhaarNumber: "" });
   const needsIdentity = !farmer?.dateOfBirth || !farmer?.aadhaarLast4;
+  const latestEligibleBirthDate = getLatestEligibleBirthDate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -64,7 +66,7 @@ function ProcurementForm({ onTicketCreated }) {
 
   return (
     <form className="procurement-form" onSubmit={handleSubmit}>
-      {/* Form heading */}
+      {/* form heading */}
       <div className="pf-label">FORM FILLING & PRODUCE INTAKE</div>
       <h1 className="pf-title">FORM FILLING</h1>
 
@@ -80,7 +82,7 @@ function ProcurementForm({ onTicketCreated }) {
         </div>
       )}
 
-      {/* Read-only fields from auth context */}
+      {/* read-only identity fields */}
       <div className="pf-group">
         <label>Farmer Full Name (Default)</label>
         <input type="text" value={farmer?.fullname || ""} readOnly />
@@ -100,7 +102,7 @@ function ProcurementForm({ onTicketCreated }) {
         <>
           <div className="pf-group">
             <label>Date of Birth <span>*</span></label>
-            <input type="date" value={identityData.dateOfBirth} onChange={(e) => setIdentityData((current) => ({ ...current, dateOfBirth: e.target.value }))} required />
+            <input type="date" max={latestEligibleBirthDate} value={identityData.dateOfBirth} onChange={(e) => setIdentityData((current) => ({ ...current, dateOfBirth: e.target.value }))} required />
           </div>
           <div className="pf-group">
             <label>Aadhaar Number <span>*</span></label>
@@ -114,7 +116,7 @@ function ProcurementForm({ onTicketCreated }) {
         <input type="text" value={farmer?.village || "Not provided"} readOnly />
       </div>
 
-      {/* Editable fields */}
+      {/* editable fields */}
       <div className="pf-group">
         <label>
           Land Survey Number <span>*</span>
@@ -199,7 +201,7 @@ function ProcurementForm({ onTicketCreated }) {
         />
       </div>
 
-      {/* Confirmation checkbox */}
+      {/* confirmation */}
       <div className="pf-confirmation">
         <input
           type="checkbox"
@@ -213,7 +215,7 @@ function ProcurementForm({ onTicketCreated }) {
         </label>
       </div>
 
-      {/* Submit */}
+      {/* submit */}
       <button type="submit" className="pf-submit" disabled={isSubmitting}>
         {isSubmitting ? "SUBMITTING..." : "SUBMIT"}
         <ArrowRightIcon size={18} />

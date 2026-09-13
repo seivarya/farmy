@@ -31,7 +31,6 @@ const slotSchema = new mongoose.Schema(
       required: [true, "Time slot is required"],
       trim: true,
     },
-    // A per-date/time-slot sequence makes capacity reservation race-safe.
     bookingSequence: { type: Number, min: 1, max: 100 },
     cropType: {
       type: String,
@@ -56,14 +55,11 @@ const slotSchema = new mongoose.Schema(
   }
 );
 
-// Compound index to quickly look up slot occupancy per date & time
 slotSchema.index({ date: 1, timeSlot: 1, status: 1 });
-// Cancelled bookings leave this partial index, so their capacity can be reused.
 slotSchema.index(
   { date: 1, timeSlot: 1, bookingSequence: 1 },
   { unique: true, partialFilterExpression: { status: "booked", bookingSequence: { $exists: true } } }
 );
-// A ticket can have at most one active slot, even if two booking requests arrive together.
 slotSchema.index(
   { ticketId: 1 },
   {
@@ -72,6 +68,7 @@ slotSchema.index(
     partialFilterExpression: { status: "booked", ticketId: { $exists: true } },
   }
 );
+slotSchema.index({ farmerId: 1, date: 1, timeSlot: 1, status: 1 });
 
 module.exports = {
   Slot: mongoose.model("Slot", slotSchema),

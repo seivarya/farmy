@@ -4,17 +4,18 @@ import { CloseIcon, ArrowRightIcon } from "../components/common/Icons";
 import DemandHero from "../components/demand/DemandHero";
 import DemandControls from "../components/demand/DemandControls";
 import CropCard from "../components/demand/CropCard";
+import LanguageSelector from "../components/common/LanguageSelector";
 import { DEMAND_CROPS, matchesDemandCategory } from "../data/crops";
 import "./CropDemandPage.css";
 
-// Full-screen crop demand page showing government procurement targets
+// crop demand page
 function CropDemandPage({ onClose, onOpenSchedule, onOpenForm, onBookSlot }) {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("rank");
   const [activeCategory, setActiveCategory] = useState("all");
 
-  // Filter and sort crops based on current controls state
+  // filter and sort crops
   const filteredCrops = useMemo(() => {
     let result = DEMAND_CROPS.filter((crop) => {
       const matchesCategory = matchesDemandCategory(crop, activeCategory);
@@ -39,7 +40,7 @@ function CropDemandPage({ onClose, onOpenSchedule, onOpenForm, onBookSlot }) {
 
   return (
     <main className="crop-demand-page">
-      {/* Page header */}
+      {/* page header */}
       <div className="crop-demand-header">
         <div>
           <div className="crop-demand-eyebrow">
@@ -48,15 +49,19 @@ function CropDemandPage({ onClose, onOpenSchedule, onOpenForm, onBookSlot }) {
           <h1>CROP IN DEMAND</h1>
         </div>
 
-        <button className="crop-close-btn" onClick={() => (onClose ? onClose() : navigate("/dashboard"))} aria-label="Close">
-          <CloseIcon size={24} />
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <LanguageSelector variant="light" />
+          <button className="crop-close-btn" onClick={() => (onClose ? onClose() : navigate("/dashboard"))} aria-label="Close">
+            <CloseIcon size={24} />
+          </button>
+        </div>
       </div>
 
-      {/* Hero + stat cards */}
+
+      {/* hero and summary */}
       <DemandHero />
 
-      {/* Filter controls */}
+      {/* filters */}
       <DemandControls
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
@@ -66,7 +71,7 @@ function CropDemandPage({ onClose, onOpenSchedule, onOpenForm, onBookSlot }) {
         onSearchChange={setSearch}
       />
 
-      {/* Crop cards grid */}
+      {/* crop cards */}
       <section className="crop-grid">
         {filteredCrops.map((crop) => (
           <CropCard
@@ -84,7 +89,7 @@ function CropDemandPage({ onClose, onOpenSchedule, onOpenForm, onBookSlot }) {
         </div>
       )}
 
-      {/* Why section */}
+      {/* context */}
       <section className="why-section">
         <h3>Why Farmers Should Prioritize Selling High-Demand Crops:</h3>
 
@@ -120,7 +125,7 @@ function CropDemandPage({ onClose, onOpenSchedule, onOpenForm, onBookSlot }) {
         </div>
       </section>
 
-      {/* Footer CTA */}
+      {/* call to action */}
       <section className="demand-footer">
         <strong>Ready to schedule produce delivery for high-demand quotas?</strong>
 

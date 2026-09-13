@@ -15,5 +15,6 @@ const farmerNotificationSchema = new mongoose.Schema(
 );
 
 farmerNotificationSchema.index({ farmerId: 1, readAt: 1, createdAt: -1 });
+farmerNotificationSchema.index({ farmerId: 1, createdAt: -1 });
 
 module.exports = mongoose.model("FarmerNotification", farmerNotificationSchema);

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// A unique marker makes initial administrator setup safe against concurrent requests.
 const adminBootstrapSchema = new mongoose.Schema(
   {
     key: { type: String, required: true, unique: true, immutable: true, default: "initial" },

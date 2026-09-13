@@ -1,130 +1,43 @@
-// 1. Initialize environment variables first before importing modules
 require("dotenv").config();
 
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-
+const createApp = require("./app");
 const { connectDB, disconnectDB } = require("./config/db");
-const authRoutes = require("./routes/auth");
-const slotRoutes = require("./routes/slot");
-const procurementRoutes = require("./routes/procurements");
-const ticketRoutes = require("./routes/tickets");
-const adminAuthRoutes = require("./routes/adminAuth");
-const adminRoutes = require("./routes/admin");
-const notificationRoutes = require("./routes/notifications");
-const smsService = require("./services/smsService");
-const { apiLimiter } = require("./middleware/rateLimiter");
-const { errorHandler, notFoundHandler } = require("./middleware/errorHandler");
 
-const app = express();
 const PORT = process.env.PORT || 6767;
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_farmy";
+const app = createApp();
 
-// Security audit warning if default weak JWT secret is detected
-if (JWT_SECRET === "yourSecretKey" || JWT_SECRET === "fallback_secret_farmy") {
-  console.warn(
-    "[SECURITY WARNING]: JWT_SECRET is using a weak or default key. Please configure a strong random secret in your production .env file.",
-  );
-}
-
-// 2. CORS configuration (allowing frontend development port)
-const allowedOrigins = [
-  "http://localhost:5173", // Vite dev default
-  "http://localhost:3000",
-  "http://127.0.0.1:5173",
-];
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, postman)
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(null, false);
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  }),
-);
-
-// 3. Request parsers
-app.use(express.json({ limit: "1mb" }));
-app.use(express.urlencoded({ extended: true, limit: "1mb" }));
-
-// 4. Rate limiting on all API routes
-app.use("/api", apiLimiter);
-
-// Do not let Mongoose buffer requests while the database is unavailable.
-// A clear 503 is preferable to a misleading multi-second query timeout.
-app.use("/api", (req, res, next) => {
-  if (mongoose.connection.readyState !== 1) {
-    return res.status(503).json({
-      success: false,
-      error:
-        "Database is unavailable. Start MongoDB or configure MONGO_URI, then try again.",
-    });
+const warnAboutWeakJwtSecret = () => {
+  const weakSecrets = ["yourSecretKey", "fallback_secret_farmy"];
+  if (!weakSecrets.includes(JWT_SECRET)) {
+    return;
   }
-  next();
-});
 
-// 5. Route mounting
-app.use("/api/auth", authRoutes);
-app.use("/api/slots", slotRoutes);
-app.use("/api/procurements", procurementRoutes);
-app.use("/api/tickets", ticketRoutes);
-app.use("/api/admin/auth", adminAuthRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/notifications", notificationRoutes);
+  console.warn("[security] JWT_SECRET is using a weak or default key. Configure a strong random secret in production.");
+};
 
-// Health check endpoint
-app.get("/health", (req, res) => {
-  const databaseConnected = mongoose.connection.readyState === 1;
-  res.json({
-    status: databaseConnected ? "healthy" : "degraded",
-    timestamp: new Date().toISOString(),
-    database: databaseConnected ? "connected" : "disconnected",
-    sms: smsService.getStatus(),
-  });
-});
-
-// Root debug info
-app.get("/", (req, res) => {
-  res.json({
-    service: "Farmy Crop Procurement API",
-    version: "2.0.0",
-    docs: "/api",
-  });
-});
-
-// 6. 404 & Centralized Error Handlers
-app.use(notFoundHandler);
-app.use(errorHandler);
-
-// 7. Database connection & Server initialization
 const startServer = async () => {
+  warnAboutWeakJwtSecret();
   await connectDB();
 
   const server = app.listen(PORT, () => {
-    console.log(`[Server] Farmy Backend running at http://localhost:${PORT}`);
+    console.log(`[server] Farmy Backend running at http://localhost:${PORT}`);
   });
 
-  // Graceful shutdown handling
-  const handleExit = async (signal) => {
-    console.log(`[Server] Received ${signal}. Shutting down gracefully...`);
+  const shutdown = (signal) => {
+    console.log(`[server] received ${signal}; shutting down.`);
     server.close(async () => {
       await disconnectDB();
       process.exit(0);
     });
   };
 
-  process.on("SIGINT", () => handleExit("SIGINT"));
-  process.on("SIGTERM", () => handleExit("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
 };
 
-startServer();
+if (require.main === module) {
+  startServer();
+}
 
 module.exports = app;

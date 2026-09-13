@@ -15,8 +15,8 @@ export const getAdminTicket = (ticketId) => adminClient.get(`/admin/tickets/${en
 export const updateAdminTicketStatus = (ticketId, status, note) =>
   adminClient.patch(`/admin/tickets/${encodeURIComponent(ticketId)}/status`, { status, note });
 
-export const updateFarmerIdentityByAdmin = (farmerId, dateOfBirth, aadhaarNumber) =>
-  adminClient.patch(`/admin/farmers/${encodeURIComponent(farmerId)}/identity`, { dateOfBirth, aadhaarNumber });
+export const updateFarmerProfileByAdmin = (farmerId, data) =>
+  adminClient.patch(`/admin/farmers/${encodeURIComponent(farmerId)}/profile`, data);
 
 export const sendFarmerNotification = (farmerId, data) =>
   adminClient.post(`/admin/farmers/${encodeURIComponent(farmerId)}/notifications`, data);

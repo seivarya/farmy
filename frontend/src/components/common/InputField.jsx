@@ -13,6 +13,8 @@ function InputField({
   icon,
   inputMode,
   maxLength,
+  min,
+  max,
   isPassword = false,
   error = "",
 }) {
@@ -44,6 +46,8 @@ function InputField({
           required={required}
           inputMode={inputMode}
           maxLength={maxLength}
+          min={min}
+          max={max}
           className="form-input-control"
         />
 

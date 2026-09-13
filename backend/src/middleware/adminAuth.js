@@ -21,7 +21,7 @@ const requireAdmin = async (req, res, next) => {
   }
 
   try {
-    // Fetch the current account so role changes or deactivation take effect immediately.
+    // load the current role and active state
     const admin = await Admin.findById(decoded.id).select("role isActive");
     if (!admin || !admin.isActive) {
       return res.status(401).json({ success: false, error: "Administrator account is inactive or no longer exists." });

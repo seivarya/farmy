@@ -103,7 +103,7 @@
   padding: 36px 24px 60px;
 }
 
-/* STATS GRID */
+/* stats */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -114,7 +114,7 @@
 .stat-card {
   background: #ffffff;
   border: 1.5px solid #ded3bf;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 22px;
   display: flex;
   align-items: center;
@@ -135,8 +135,8 @@
 .stat-icon {
   width: 50px;
   height: 50px;
-  border-radius: 14px;
-  background: rgba(23, 70, 51, 0.08);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-blue-soft);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -166,10 +166,10 @@
   color: var(--color-success);
 }
 
-/* ALERTS */
+/* alerts */
 .dashboard-alert {
   padding: 14px 20px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   margin-bottom: 24px;
   display: flex;
   align-items: center;
@@ -190,7 +190,7 @@
   color: var(--color-error);
 }
 
-/* WORKSPACE GRID */
+/* workspace */
 .dashboard-layout-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -201,7 +201,7 @@
 .dashboard-card {
   background: #ffffff;
   border: 1.5px solid #ded3bf;
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   padding: 30px;
   box-shadow: var(--shadow-sm);
   text-align: left;
@@ -225,7 +225,7 @@
   color: #6a7c70;
 }
 
-/* FORM CONTROLS */
+/* form controls */
 .dash-input-group {
   margin-bottom: 20px;
 }
@@ -233,9 +233,9 @@
 .ticket-required-note {
   margin-top: 10px;
   padding: 13px;
-  border: 1px solid #d8bd8a;
-  border-radius: 10px;
-  background: #f8f1df;
+  border: 1px solid #c6d6e3;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-blue-soft);
 }
 
 .ticket-required-note p {
@@ -247,7 +247,7 @@
 .ticket-required-note button {
   border: 0;
   background: transparent;
-  color: #07543e;
+  color: var(--color-accent-blue);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.6px;
@@ -273,7 +273,7 @@
   width: 100%;
   padding: 13px 16px;
   border: 1.5px solid #dfd3c0;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   background: #fbf7f0;
   font-size: 14px;
   color: var(--color-primary-text);
@@ -293,7 +293,7 @@
   gap: 16px;
 }
 
-/* SLOTS PICKER */
+/* slots */
 .slots-picker-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -305,7 +305,7 @@
   padding: 12px 16px;
   border: 1.5px solid #dfd3c0;
   background: #fdfaf5;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -321,7 +321,7 @@
 
 .slot-chip.selected {
   border-color: var(--color-primary-dark);
-  background: rgba(23, 70, 51, 0.08);
+  background: var(--color-accent-blue-soft);
   box-shadow: 0 0 0 2px var(--color-primary-dark);
 }
 
@@ -341,9 +341,9 @@
   font-size: 11px;
   font-weight: 700;
   padding: 4px 10px;
-  border-radius: 6px;
-  background: #e8ded0;
-  color: #556c5c;
+  border-radius: 4px;
+  background: #e8edf1;
+  color: #456271;
 }
 
 .slot-chip.selected .slot-badge {
@@ -357,7 +357,7 @@
   background: var(--color-primary-dark);
   color: #f7f0e4;
   padding: 15px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -375,7 +375,7 @@
   cursor: not-allowed;
 }
 
-/* BOOKINGS LIST */
+/* bookings */
 .empty-bookings {
   padding: 40px 20px;
   text-align: center;
@@ -406,7 +406,7 @@
 
 .booking-item-card {
   border: 1.5px solid #ded3bf;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   padding: 18px;
   background: #fcf9f4;
   transition: border-color var(--transition-fast);
@@ -496,7 +496,7 @@
   background: var(--color-error-bg);
 }
 
-/* RESPONSIVE */
+/* responsive */
 @media (max-width: 960px) {
   .dashboard-layout-grid {
     grid-template-columns: 1fr;

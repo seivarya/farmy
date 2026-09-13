@@ -1,4 +1,4 @@
-/* MspTable: MSP price matrix */
+/* msp price table */
 
 .msp-table-wrap {
   padding: 0 4px;
@@ -29,7 +29,7 @@
   color: #546259;
 }
 
-/* Search */
+/* search */
 
 .msp-search-strip {
   margin-bottom: 16px;
@@ -68,7 +68,7 @@
   cursor: pointer;
 }
 
-/* Table card */
+/* table card */
 
 .msp-table-card {
   border: 1px solid #e4ddd2;
@@ -121,7 +121,7 @@
   font-weight: 600;
 }
 
-/* Category row */
+/* category row */
 
 .msp-category-row td {
   padding: 7px 14px;
@@ -132,7 +132,7 @@
   letter-spacing: 0.8px;
 }
 
-/* Data rows */
+/* data rows */
 
 .msp-crop-row:nth-child(even) td {
   background: #fafaf8;
@@ -168,7 +168,7 @@
   color: #69746e;
 }
 
-/* Result note */
+/* result note */
 
 .msp-result-note {
   padding: 8px 16px;

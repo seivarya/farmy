@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import { CloseIcon } from "../components/common/Icons";
+import LanguageSelector from "../components/common/LanguageSelector";
 import MspTable from "../components/schedule/MspTable";
 import "./SchedulePage.css";
 
-// Modal overlay that wraps the MSP price matrix table
+// modal overlay for the msp matrix
 function SchedulePage({ onClose }) {
   const navigate = useNavigate();
   const handleClose = () => (onClose ? onClose() : navigate("/dashboard"));
@@ -15,13 +17,16 @@ function SchedulePage({ onClose }) {
       aria-labelledby="schedule-title"
     >
       <section className="schedule-modal">
-        <button
-          className="schedule-close"
-          onClick={handleClose}
-          aria-label="Close schedule"
-        >
-          <CloseIcon size={20} />
-        </button>
+        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
+          <LanguageSelector variant="light" />
+          <button
+            className="schedule-close"
+            onClick={handleClose}
+            aria-label="Close schedule"
+          >
+            <CloseIcon size={20} />
+          </button>
+        </div>
 
         <MspTable />
       </section>
@@ -30,4 +35,3 @@ function SchedulePage({ onClose }) {
 }
 
 export default SchedulePage;
-import { useNavigate } from "react-router-dom";

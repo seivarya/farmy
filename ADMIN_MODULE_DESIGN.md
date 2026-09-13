@@ -10,7 +10,7 @@ Administrators operate the procurement workflow; farmers retain access only to t
 | --- | :---: | :---: | :---: |
 | View tickets and intake forms | Yes | Yes | Yes |
 | Change ticket review status | Yes | Yes | No |
-| Correct farmer identity data | Yes | Yes | No |
+| Edit farmer profile (name, mobile, DOB, Aadhaar) | Yes | No | No |
 | Send in-app notifications | Yes | Yes | Yes |
 | Change slot times/capacity | Yes | No | No |
 | Create/deactivate future admins | Planned | No | No |
@@ -46,13 +46,13 @@ Every status change is appended to `statusHistory`, updates the linked intake fo
 | `GET /api/admin/tickets` | List up to 100 tickets, with optional status/search filters |
 | `GET /api/admin/tickets/:ticketId` | Read a ticket and its farmer-owned form |
 | `PATCH /api/admin/tickets/:ticketId/status` | Record a pending/review/accepted/rejected decision |
-| `PATCH /api/admin/farmers/:farmerId/identity` | Correct DOB/Aadhaar identity data; raw Aadhaar is encrypted and never returned |
+| `PATCH /api/admin/farmers/:farmerId/profile` | Super-admin-only farmer name, mobile, DOB, and Aadhaar edits; raw Aadhaar is encrypted and never returned |
 | `GET/PATCH /api/admin/settings/procurement` | Read/update future time slots and capacity |
 | `POST /api/admin/farmers/:farmerId/notifications` | Create an in-app notification |
 
 ## Guardrails
 
-- Raw Aadhaar is encrypted in the farmer record and never returned by APIs. Its format/uniqueness does not prove UIDAI authentication; an administrator correction is labelled `officially_reviewed`, not `verified`.
+- Raw Aadhaar is encrypted in farmer/admin records and never returned by APIs. A global registry ensures the same Aadhaar cannot belong to both account types. Its format/uniqueness does not prove UIDAI authentication; an administrator correction is labelled `officially_reviewed`, not `verified`.
 - Ticket and slot actions remain scoped to the owning farmer; admins access through explicit admin routes.
 - In-app notification delivery is implemented. Custom SMS is intentionally not automated through Twilio Verify because Verify is an OTP product; a production notification SMS provider/template decision is still needed.
 - Payment and transaction records remain out of scope.

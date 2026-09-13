@@ -1,4 +1,4 @@
-/* AUTH FORMS & SHARED PANEL STYLES */
+/* auth forms */
 
 .portal-pill {
   display: inline-block;
@@ -62,7 +62,7 @@
   text-align: left;
 }
 
-/* Primary Action Button */
+/* primary action */
 .auth-primary-btn {
   width: 100%;
   background: var(--color-primary-dark);
@@ -97,7 +97,7 @@
   transform: translateX(4px);
 }
 
-/* Options / Remember me & Forgot Password */
+/* options */
 .auth-form-options {
   display: flex;
   justify-content: space-between;
@@ -136,7 +136,7 @@
   text-decoration: underline;
 }
 
-/* Switch Page Text / Link */
+/* page link */
 .auth-switch-text {
   font-size: 14px;
   color: #63776b;
@@ -161,7 +161,7 @@
   text-decoration: underline;
 }
 
-/* Success & State Boxes */
+/* state boxes */
 .auth-success-box {
   background: var(--color-success-bg);
   border: 1.5px solid rgba(21, 128, 61, 0.3);
@@ -195,7 +195,7 @@
   line-height: 1.4;
 }
 
-/* Back Link for Reset Flow */
+/* back link */
 .auth-back-link {
   display: inline-flex;
   align-items: center;
@@ -211,7 +211,7 @@
   color: var(--color-primary-dark);
 }
 
-/* Mission & About Block */
+/* mission */
 .auth-mission-block {
   margin-top: 28px;
   padding: 28px;

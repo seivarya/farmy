@@ -11,6 +11,7 @@ const TICKET_STATUSES = [
   "rejected",
   "cancelled",
 ];
+const ACTIVE_TICKET_STATUSES = ["submitted", "under_review", "accepted", "slot_booked", "scheduled"];
 
 const ticketEventSchema = new mongoose.Schema(
   {
@@ -55,11 +56,21 @@ const procurementTicketSchema = new mongoose.Schema(
 );
 
 procurementTicketSchema.index({ farmerId: 1, status: 1, createdAt: -1 });
+procurementTicketSchema.index(
+  { farmerId: 1, crop: 1 },
+  {
+    name: "farmer_crop_active_ticket_unique",
+    unique: true,
+    partialFilterExpression: { status: { $in: ACTIVE_TICKET_STATUSES } },
+  }
+);
+procurementTicketSchema.index({ status: 1, createdAt: -1 });
 
 const generateTicketId = () => `FMY-${new Date().getFullYear()}-${crypto.randomUUID().replace(/-/g, "").toUpperCase()}`;
 
 module.exports = {
   ProcurementTicket: mongoose.model("ProcurementTicket", procurementTicketSchema),
   TICKET_STATUSES,
+  ACTIVE_TICKET_STATUSES,
   generateTicketId,
 };

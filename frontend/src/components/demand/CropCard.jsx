@@ -1,7 +1,7 @@
 import { ChartIcon } from "../common/Icons";
 import "./CropCard.css";
 
-// Renders a single crop demand card with progress, stats, and actions
+// demand crop card
 function CropCard({ crop, onBookSlot, onOpenSchedule }) {
   const progress = Math.round((crop.procured / crop.target) * 100);
 
@@ -11,7 +11,7 @@ function CropCard({ crop, onBookSlot, onOpenSchedule }) {
         crop.rank === 4 || crop.rank === 6 ? "gold-border" : ""
       }`}
     >
-      {/* Header: rank badge + demand tag + season */}
+      {/* card header */}
       <div className="crop-card-top">
         <div>
           <span className="rank-badge">Rank #{crop.rank}</span>
@@ -20,7 +20,7 @@ function CropCard({ crop, onBookSlot, onOpenSchedule }) {
         <span className="crop-season">{crop.season}</span>
       </div>
 
-      {/* Crop name and category */}
+      {/* crop name */}
       <div className="crop-title">
         <div className="crop-icon-box">
           <span className="crop-initial">{crop.name.charAt(0)}</span>
@@ -33,7 +33,7 @@ function CropCard({ crop, onBookSlot, onOpenSchedule }) {
         </div>
       </div>
 
-      {/* Progress bar */}
+      {/* progress */}
       <div className="progress-box">
         <div className="progress-info">
           <strong>Progress: {progress}% Procured</strong>
@@ -45,7 +45,7 @@ function CropCard({ crop, onBookSlot, onOpenSchedule }) {
         </div>
       </div>
 
-      {/* Numeric stats */}
+      {/* summary values */}
       <div className="crop-numbers">
         <div>
           <strong>{crop.target}</strong>
@@ -61,21 +61,21 @@ function CropCard({ crop, onBookSlot, onOpenSchedule }) {
         </div>
       </div>
 
-      {/* MSP row */}
+      {/* msp value */}
       <div className="msp-row">
         <strong>Govt MSP: {crop.msp}</strong>
         <span>{crop.purchase}</span>
       </div>
 
-      {/* Government purpose */}
+      {/* procurement purpose */}
       <div className="crop-purpose">
         <strong>Govt Purpose:</strong> {crop.purpose}
       </div>
 
-      {/* Farmer benefit */}
+      {/* farmer benefit */}
       <div className="crop-benefit">{crop.benefit}</div>
 
-      {/* Action buttons */}
+      {/* actions */}
       <div className="crop-actions">
         <button className="sell-btn" onClick={() => onBookSlot(crop)}>
           Sell This Crop (Book Slot)

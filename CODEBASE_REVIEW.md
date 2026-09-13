@@ -18,6 +18,10 @@ Last reviewed: 2026-09-12
 | Identity corrections | Admins can correct DOB or Aadhaar through a narrow route. Raw Aadhaar is encrypted, never returned, and corrections are labelled `officially_reviewed`, not UIDAI-verified. |
 | Slot workflow | Booking requires an accepted ticket; cancellation returns it to accepted so it can be rebooked. Database indexes and conditional ticket transition prevent capacity and double-booking races. |
 | Misleading status | Replaced the hard-coded farmer `KYC Verified` label with the actual stored identity status. |
+| Global identity uniqueness | Added an Aadhaar identity registry shared by farmer and admin accounts, then backfilled and audited the live database: 3 farmer claims, 0 admin claims, and 0 collisions. |
+| Concurrent intake submission | Added a partial unique index so one farmer cannot create duplicate active tickets for the same crop through simultaneous requests. |
+| Admin profile control | Restricted full farmer profile edits (name, mobile, DOB, Aadhaar) to super administrators. |
+| Diagnostics | Added metadata-only API and business-event debug logs; logs exclude request bodies, credentials, OTPs, Aadhaar values, and tokens. |
 
 ## Verification performed
 
@@ -27,6 +31,7 @@ Last reviewed: 2026-09-12
 - Live Atlas health check reported `healthy` / `connected`.
 - An unauthenticated request to the admin API returned `401` as expected.
 - Atlas confirmed the new active-ticket and capacity-reservation indexes were created without duplicate active ticket bookings.
+- Atlas identity audit found no duplicate Aadhaar claims, and the global identity registry was backfilled.
 
 ## Open items before a production launch
 

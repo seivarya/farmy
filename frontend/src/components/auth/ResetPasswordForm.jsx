@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import InputField from "../common/InputField";
 import OtpBox from "../common/OtpBox";
 import DecorativeLeaves from "../common/DecorativeLeaves";
-import { PhoneIcon, LockIcon, InfoIcon, CheckCircleIcon } from "../common/Icons";
+import { PhoneIcon, LockIcon, CheckCircleIcon } from "../common/Icons";
 import { sendOtp, verifyOtp, resetPassword } from "../../api/auth";
 import "./AuthForms.css";
 
@@ -13,7 +13,6 @@ function ResetPasswordForm({ onBackToLogin }) {
   const [countdown, setCountdown] = useState(60);
   const [otpVerified, setOtpVerified] = useState(false);
   const [otpError, setOtpError] = useState("");
-  const [simulatedOtpNotice, setSimulatedOtpNotice] = useState("");
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -43,15 +42,11 @@ function ResetPasswordForm({ onBackToLogin }) {
 
     setIsSubmitting(true);
     try {
-      const res = await sendOtp(phoneNumber, "reset_password");
+      await sendOtp(phoneNumber, "reset_password");
       setOtpSent(true);
       setOtp("");
       setOtpVerified(false);
       setCountdown(60);
-      if (res.devOtp) {
-        setSimulatedOtpNotice(`Dev OTP: ${res.devOtp}`);
-        setOtp(res.devOtp);
-      }
     } catch (err) {
       setOtpError(err.message);
     } finally {
@@ -70,7 +65,6 @@ function ResetPasswordForm({ onBackToLogin }) {
       await verifyOtp(phoneNumber, otp, "reset_password");
       setOtpVerified(true);
       setOtpError("");
-      setSimulatedOtpNotice("");
     } catch (err) {
       setOtpError(err.message);
     } finally {
@@ -84,12 +78,8 @@ function ResetPasswordForm({ onBackToLogin }) {
     setOtpError("");
 
     try {
-      const res = await sendOtp(phoneNumber, "reset_password");
+      await sendOtp(phoneNumber, "reset_password");
       setCountdown(60);
-      if (res.devOtp) {
-        setSimulatedOtpNotice(`Dev OTP: ${res.devOtp}`);
-        setOtp(res.devOtp);
-      }
     } catch (err) {
       setOtpError(err.message);
     }
@@ -134,13 +124,6 @@ function ResetPasswordForm({ onBackToLogin }) {
       <button type="button" className="auth-back-link" onClick={onBackToLogin}>
         &larr; Back to Login
       </button>
-
-      {simulatedOtpNotice && (
-        <div className="auth-notice-banner" role="status">
-          <InfoIcon size={16} />
-          <span>{simulatedOtpNotice}</span>
-        </div>
-      )}
 
       {!otpVerified ? (
         <form onSubmit={handleSendOtp}>

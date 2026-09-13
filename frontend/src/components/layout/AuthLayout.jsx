@@ -1,5 +1,6 @@
 import React from "react";
 import BrandLogo from "../common/BrandLogo";
+import LanguageSelector from "../common/LanguageSelector";
 import "./AuthLayout.css";
 
 function AuthLayout({
@@ -12,11 +13,15 @@ function AuthLayout({
 }) {
   return (
     <div className="auth-layout-page">
-      {/* LEFT PANEL */}
+      {/* left panel */}
       <section className="auth-left-panel">
-        <BrandLogo />
+        <div className="auth-left-topbar">
+          <BrandLogo />
+          <LanguageSelector variant="dark" />
+        </div>
 
         <div className="auth-left-content">
+
           <p className="auth-eyebrow">{eyebrow}</p>
 
           <h1 className="auth-headline">
@@ -55,7 +60,7 @@ function AuthLayout({
         </p>
       </section>
 
-      {/* RIGHT PANEL */}
+      {/* right panel */}
       <section className="auth-right-panel">
         <div className="auth-form-shell">{children}</div>
       </section>

@@ -4,13 +4,11 @@ import { getAdminTicket, getAdminTickets, getCurrentAdmin } from "../api/admin";
 import AdminTicketDetail from "../components/admin/AdminTicketDetail";
 import AdminTicketList from "../components/admin/AdminTicketList";
 import ProcurementSettingsPanel from "../components/admin/ProcurementSettingsPanel";
+import LanguageSelector from "../components/common/LanguageSelector";
 import "./AdminPages.css";
 
 const TICKET_REVIEW_ROLES = new Set(["super_admin", "procurement_officer"]);
-const IDENTITY_CORRECTION_ROLES = new Set([
-  "super_admin",
-  "procurement_officer",
-]);
+const IDENTITY_CORRECTION_ROLES = new Set(["super_admin"]);
 const NOTIFICATION_ROLES = new Set([
   "super_admin",
   "procurement_officer",
@@ -106,9 +104,12 @@ function AdminDashboardPage() {
             </p>
           )}
         </div>
-        <button type="button" onClick={logout}>
-          Log out
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <LanguageSelector variant="light" />
+          <button type="button" onClick={logout}>
+            Log out
+          </button>
+        </div>
       </header>
 
       {error && (

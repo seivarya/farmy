@@ -2,8 +2,9 @@ import { useState } from "react";
 import {
   sendFarmerNotification,
   updateAdminTicketStatus,
-  updateFarmerIdentityByAdmin,
+  updateFarmerProfileByAdmin,
 } from "../../api/admin";
+import { getLatestEligibleBirthDate } from "../../utils/date";
 
 const DECISION_OPTIONS = [
   ["submitted", "Pending review"],
@@ -27,6 +28,8 @@ function AdminTicketDetail({
   const farmer = ticket.farmerId;
   const [status, setStatus] = useState(ticket.status);
   const [decisionNote, setDecisionNote] = useState("");
+  const [fullname, setFullname] = useState(farmer?.fullname || "");
+  const [mobileNumber, setMobileNumber] = useState(farmer?.mobileNumber || "");
   const [dateOfBirth, setDateOfBirth] = useState(farmer?.dateOfBirth || "");
   const [aadhaarNumber, setAadhaarNumber] = useState("");
   const [notificationTitle, setNotificationTitle] = useState("");
@@ -35,6 +38,7 @@ function AdminTicketDetail({
   const [savingIdentity, setSavingIdentity] = useState(false);
   const [sendingNotification, setSendingNotification] = useState(false);
   const [message, setMessage] = useState("");
+  const latestEligibleBirthDate = getLatestEligibleBirthDate();
 
   const handleDecision = async (event) => {
     event.preventDefault();
@@ -52,20 +56,25 @@ function AdminTicketDetail({
     }
   };
 
-  const handleIdentityCorrection = async (event) => {
+  const handleProfileUpdate = async (event) => {
     event.preventDefault();
-    if (!dateOfBirth && !aadhaarNumber) {
-      onError("Enter a date of birth or Aadhaar number before saving an identity correction.");
+    if (!fullname && !mobileNumber && !dateOfBirth && !aadhaarNumber) {
+      onError("Enter at least one profile field before saving.");
       return;
     }
 
     setMessage("");
     setSavingIdentity(true);
     try {
-      const response = await updateFarmerIdentityByAdmin(farmer._id, dateOfBirth || undefined, aadhaarNumber || undefined);
+      const response = await updateFarmerProfileByAdmin(farmer._id, {
+        fullname: fullname || undefined,
+        mobileNumber: mobileNumber || undefined,
+        dateOfBirth: dateOfBirth || undefined,
+        aadhaarNumber: aadhaarNumber || undefined,
+      });
       onIdentityUpdated(response.farmer);
       setAadhaarNumber("");
-      setMessage("Identity correction saved. The farmer received an in-app notification.");
+      setMessage("Farmer profile saved. The farmer received an in-app notification.");
     } catch (requestError) {
       onError(requestError.message);
     } finally {
@@ -136,18 +145,26 @@ function AdminTicketDetail({
       )}
 
       {canCorrectIdentity && farmer && (
-        <form className="admin-decision-form admin-secondary-form" onSubmit={handleIdentityCorrection}>
-          <h3>Correct identity data</h3>
-          <p>Enter only the field being corrected. Full Aadhaar is encrypted and never displayed after submission.</p>
+        <form className="admin-decision-form admin-secondary-form" onSubmit={handleProfileUpdate}>
+          <h3>Manage farmer profile</h3>
+          <p>Only super administrators can edit these details. Full Aadhaar is encrypted and never displayed after submission.</p>
+          <label>
+            Full name
+            <input value={fullname} onChange={(event) => setFullname(event.target.value)} maxLength="100" />
+          </label>
+          <label>
+            Mobile number
+            <input inputMode="numeric" maxLength="10" value={mobileNumber} onChange={(event) => setMobileNumber(event.target.value.replace(/\D/g, "").slice(0, 10))} />
+          </label>
           <label>
             Date of birth
-            <input type="date" value={dateOfBirth} onChange={(event) => setDateOfBirth(event.target.value)} />
+            <input type="date" max={latestEligibleBirthDate} value={dateOfBirth} onChange={(event) => setDateOfBirth(event.target.value)} />
           </label>
           <label>
             Replacement Aadhaar number
             <input inputMode="numeric" maxLength="12" value={aadhaarNumber} onChange={(event) => setAadhaarNumber(event.target.value.replace(/\D/g, "").slice(0, 12))} placeholder="12 digits" />
           </label>
-          <button type="submit" disabled={savingIdentity}>{savingIdentity ? "Saving…" : "Save identity correction"}</button>
+          <button type="submit" disabled={savingIdentity}>{savingIdentity ? "Saving…" : "Save farmer profile"}</button>
         </form>
       )}
 

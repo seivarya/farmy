@@ -1,4 +1,4 @@
-/* LandingPage: farmer procurement portal home */
+/* farmer dashboard */
 
 .landing-page {
   min-height: 100vh;
@@ -7,7 +7,7 @@
   font-family: var(--font-sans);
 }
 
-/* ---- Header ---- */
+/* header */
 
 .landing-header {
   height: 82px;
@@ -55,7 +55,7 @@
   font-size: 19px;
 }
 
-/* Header actions */
+/* header actions */
 
 .header-actions {
   display: flex;
@@ -112,7 +112,7 @@
   font-size: 12px;
 }
 
-/* Farmer profile */
+/* farmer profile */
 
 .farmer-profile-wrap {
   position: relative;
@@ -187,7 +187,7 @@
   font-size: 11px;
 }
 
-/* Notification */
+/* notification */
 
 .notification-button {
   position: relative;
@@ -223,7 +223,7 @@
   font-size: 8px;
 }
 
-/* Logout */
+/* logout */
 
 .logout-button {
   height: 38px;
@@ -246,14 +246,14 @@
   background: rgba(128, 110, 67, 0.15);
 }
 
-/* ---- Main content ---- */
+/* main content */
 
 .landing-main {
   width: min(1230px, calc(100% - 60px));
   margin: 34px auto 90px;
 }
 
-/* Welcome banner */
+/* welcome banner */
 
 .welcome-banner {
   min-height: 190px;
@@ -312,7 +312,7 @@
   opacity: 0.5;
 }
 
-/* Services heading */
+/* services heading */
 
 .services-heading {
   height: 82px;
@@ -340,7 +340,7 @@
   letter-spacing: 1px;
 }
 
-/* Feature grid */
+/* service grid */
 
 .feature-grid {
   display: grid;
@@ -463,7 +463,7 @@
   border: 1px solid rgba(66, 86, 74, 0.2);
 }
 
-/* ---- Responsive ---- */
+/* responsive */
 
 @media (max-width: 1150px) {
   .procurement-status { display: none; }

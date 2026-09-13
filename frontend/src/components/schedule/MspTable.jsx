@@ -3,12 +3,12 @@ import { SearchIcon, CloseIcon } from "../common/Icons";
 import { MSP_CROPS, MSP_YEARS, groupMspCropsByCategory } from "../../data/crops";
 import "./MspTable.css";
 
-// Format a raw MSP value with rupee symbol, or return as-is for dashes
+// format an msp value
 function formatMsp(value) {
   return value === "\u2014" ? "\u2014" : `\u20B9${value}`;
 }
 
-// MSP price matrix table with search and category grouping
+// msp price table
 function MspTable() {
   const [search, setSearch] = useState("");
 
@@ -27,7 +27,7 @@ function MspTable() {
 
   return (
     <div className="msp-table-wrap">
-      {/* Kicker */}
+      {/* heading */}
       <div className="msp-kicker">
         PROCUREMENT PRICES -- CACP MINISTRY OF AGRICULTURE MSP SCHEDULE
       </div>
@@ -38,7 +38,7 @@ function MspTable() {
         <strong>OFFICIAL MSP PROCUREMENT PRICES AND SCHEDULE &amp; OPERATIONAL CALENDAR</strong>
       </div>
 
-      {/* Search */}
+      {/* search */}
       <div className="msp-search-strip">
         <div className="msp-search">
           <SearchIcon size={15} />
@@ -61,7 +61,7 @@ function MspTable() {
         </div>
       </div>
 
-      {/* Table */}
+      {/* table */}
       <div className="msp-table-card">
         <div className="msp-table-heading">
           Crop &amp; Year-wise Minimum Support Price (MSP) Matrix

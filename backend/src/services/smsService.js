@@ -1,20 +1,35 @@
 const https = require("https");
 const twilio = require("twilio");
 
-/* SMS service: Twilio, Fast2SMS, or local development mock */
+/* sms providers */
 class SmsService {
   constructor() {
     this.provider = (process.env.SMS_PROVIDER || "mock").toLowerCase();
     this.fast2smsApiKey = process.env.FAST2SMS_API_KEY;
-    // TWILIO_SID is supported for existing local configurations.
     this.twilioAccountSid = process.env.TWILIO_ACCOUNT_SID || process.env.TWILIO_SID;
     this.twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
+    this.twilioApiKeySid = process.env.TWILIO_API_KEY || process.env.TWILIO_SID_KEY;
+    this.twilioApiKeySecret = process.env.TWILIO_API_SECRET
+      || process.env.TWILIO_API_KEY_SECRET
+      || process.env.TWILIO_CLIENT_SECRET_KEY
+      || process.env.TWILIO_CLIENT_SECERT_KEY;
     this.twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
     this.twilioVerifyServiceSid = process.env.TWILIO_VERIFY_SERVICE_SID;
-    this.twilioClient =
-      this.twilioAccountSid && this.twilioAuthToken
-        ? twilio(this.twilioAccountSid, this.twilioAuthToken)
-        : null;
+    this.twilioClient = this._createTwilioClient();
+  }
+
+  _createTwilioClient() {
+    if (this.twilioApiKeySid && this.twilioApiKeySecret && this.twilioAccountSid) {
+      return twilio(this.twilioApiKeySid, this.twilioApiKeySecret, {
+        accountSid: this.twilioAccountSid,
+      });
+    }
+
+    if (this.twilioAccountSid && this.twilioAuthToken) {
+      return twilio(this.twilioAccountSid, this.twilioAuthToken);
+    }
+
+    return null;
   }
 
   getStatus() {
@@ -40,9 +55,7 @@ class SmsService {
     return mobileNumber.startsWith("+") ? mobileNumber : `+91${mobileNumber}`;
   }
 
-  /**
-   * Send an OTP SMS for registration or password reset
-   */
+  // send an otp
   async sendOtpSms(mobileNumber, otp, purpose = "registration") {
     if (this.usesTwilioVerify()) {
       return this._startTwilioVerification(mobileNumber);
@@ -65,7 +78,7 @@ class SmsService {
     if (!this.twilioClient || !this.twilioVerifyServiceSid) {
       return {
         success: false,
-        error: "Twilio Verify requires TWILIO_ACCOUNT_SID (or TWILIO_SID), TWILIO_AUTH_TOKEN, and TWILIO_VERIFY_SERVICE_SID.",
+        error: "Twilio Verify requires TWILIO_VERIFY_SERVICE_SID and either API-key credentials or account-SID credentials.",
       };
     }
 
@@ -93,7 +106,7 @@ class SmsService {
       return {
         success: false,
         provider: "twilio-verify",
-        error: "Twilio Verify requires TWILIO_ACCOUNT_SID (or TWILIO_SID), TWILIO_AUTH_TOKEN, and TWILIO_VERIFY_SERVICE_SID.",
+        error: "Twilio Verify requires TWILIO_VERIFY_SERVICE_SID and either API-key credentials or account-SID credentials.",
       };
     }
 
@@ -116,10 +129,7 @@ class SmsService {
     }
   }
 
-  /**
-   * send a procurement slot booking confirmation SMS
-   */
-
+  // send a booking confirmation
   async sendSlotConfirmationSms({
     mobileNumber,
     farmerName,
@@ -138,9 +148,7 @@ class SmsService {
     });
   }
 
-  /**
-   * Send a procurement slot cancellation SMS
-   */
+  // send a booking cancellation
   async sendSlotCancellationSms({
     mobileNumber,
     farmerName,
@@ -157,18 +165,16 @@ class SmsService {
     });
   }
 
-  /**
-   * Internal dispatcher directing SMS to the configured gateway provider
-   */
+  // choose an sms provider
   async _dispatchSms(mobileNumber, message, metadata = {}) {
     const cleanNumber = mobileNumber.replace(/\D/g, "");
 
-    // 1. Fast2SMS Provider (Common for Indian standard DLTT & Quick SMS)
+    // fast2sms provider
     if (this.provider === "fast2sms" && this.fast2smsApiKey) {
       return this._sendViaFast2Sms(cleanNumber, message);
     }
 
-    // 2. Twilio Provider
+    // twilio provider
     if (this.provider === "twilio" && this.twilioClient && this.twilioPhoneNumber) {
       return this._sendViaTwilio(cleanNumber, message);
     }
@@ -181,13 +187,11 @@ class SmsService {
       };
     }
 
-    // 3. Fallback / Mock Dev Provider
+    // local mock provider
     return this._sendViaMock(cleanNumber, message, metadata);
   }
 
-  /**
-   * Mock / Development logger
-   */
+  // local sms logger
   _sendViaMock(mobileNumber, message, metadata) {
     const timestamp = new Date().toISOString();
     console.log("--------------------------------------------------");
@@ -206,9 +210,7 @@ class SmsService {
     };
   }
 
-  /**
-   * Fast2SMS implementation via HTTPS POST
-   */
+  // fast2sms request
   _sendViaFast2Sms(mobileNumber, message) {
     return new Promise((resolve, reject) => {
       const postData = JSON.stringify({
@@ -263,9 +265,7 @@ class SmsService {
     });
   }
 
-  /**
-   * Twilio implementation via HTTPS Basic Auth
-   */
+  // twilio request
   async _sendViaTwilio(mobileNumber, message) {
     const formattedTo = this._formatIndianPhoneNumber(mobileNumber);
 

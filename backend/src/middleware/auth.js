@@ -1,14 +1,9 @@
 const jwt = require("jsonwebtoken");
 
-/**
- * JWT Authentication Middleware
- * Validates Bearer token from the Authorization header and attaches the decoded
- * farmer identity (req.user = { id }) to the request context.
- */
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  // Verify Bearer schema exists
+  // require a bearer token
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       success: false,

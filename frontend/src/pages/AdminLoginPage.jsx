@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAdmin, signupAdmin } from "../api/admin";
+import LanguageSelector from "../components/common/LanguageSelector";
 import "./AdminPages.css";
 
 const INITIAL_SIGNUP = {
@@ -8,6 +9,8 @@ const INITIAL_SIGNUP = {
   officialEmail: "",
   employeeId: "",
   mobileNumber: "",
+  dateOfBirth: "",
+  aadhaarNumber: "",
   department: "procurement",
   password: "",
 };
@@ -55,7 +58,11 @@ function AdminLoginPage() {
   return (
     <main className="admin-auth-page">
       <section className="admin-auth-card">
-        <p className="admin-eyebrow">FARMY ADMINISTRATOR CONSOLE</p>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+          <p className="admin-eyebrow" style={{ margin: 0 }}>FARMY ADMINISTRATOR CONSOLE</p>
+          <LanguageSelector variant="light" />
+        </div>
+
         <h1>{showSignup ? "Administrator Sign Up" : "Administrator Login"}</h1>
         <p className="admin-copy">{showSignup ? "Create your administrator account." : "Sign in to manage procurement operations."}</p>
         {error && <p className="admin-error" role="alert">{error}</p>}
@@ -89,6 +96,14 @@ function AdminLoginPage() {
             <label>
               Mobile number
               <input inputMode="numeric" maxLength="10" value={signupData.mobileNumber} onChange={(event) => setSignupData({ ...signupData, mobileNumber: event.target.value.replace(/\D/g, "") })} required />
+            </label>
+            <label>
+              Date of birth
+              <input type="date" value={signupData.dateOfBirth} onChange={(event) => setSignupData({ ...signupData, dateOfBirth: event.target.value })} required />
+            </label>
+            <label>
+              Aadhaar number
+              <input inputMode="numeric" maxLength="12" value={signupData.aadhaarNumber} onChange={(event) => setSignupData({ ...signupData, aadhaarNumber: event.target.value.replace(/\D/g, "").slice(0, 12) })} required />
             </label>
             <label>
               Department

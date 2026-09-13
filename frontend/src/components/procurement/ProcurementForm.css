@@ -1,47 +1,49 @@
-/* ProcurementForm: produce intake form */
+/* produce intake form */
 
 .procurement-form {
   width: 100%;
   max-width: 620px;
-  padding: 45px;
-  background: #faf8f1;
-  border: 2px solid #d8bd8a;
-  border-radius: 28px;
-  box-shadow: var(--shadow-lg);
+  padding: clamp(28px, 5vw, 46px);
+  background: linear-gradient(145deg, #fffdf8 0%, #f4f0e7 100%);
+  border: 1px solid #d5c9b4;
+  border-top: 4px solid var(--color-accent-blue);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 42px rgba(25, 53, 47, 0.18);
 }
 
 .pf-label {
   display: inline-block;
   padding: 7px 15px;
   margin-bottom: 18px;
-  background: #eee3d1;
-  color: #c39a59;
-  border-radius: 5px;
-  font-size: 14px;
+  background: var(--color-accent-blue-soft);
+  color: var(--color-accent-blue);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 1px;
 }
 
 .pf-title {
   margin: 0 0 38px;
-  color: #073f30;
+  color: #153d35;
   font-family: var(--font-serif);
   font-size: 40px;
   letter-spacing: 0.5px;
 }
 
-/* Form groups */
+/* form groups */
 
 .pf-group {
-  margin-bottom: 25px;
+  margin-bottom: 22px;
 }
 
 .pf-group label {
   display: block;
   margin-bottom: 9px;
-  color: #183f34;
-  font-size: 17px;
-  font-weight: 600;
+  color: #27463f;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
 .pf-group label span {
@@ -51,27 +53,27 @@
 .pf-group input,
 .pf-group select {
   width: 100%;
-  height: 64px;
-  padding: 0 25px;
-  border: 2px solid #e2dbce;
-  border-radius: 17px;
+  height: 56px;
+  padding: 0 18px;
+  border: 1px solid #cfc8bc;
+  border-radius: var(--radius-md);
   outline: none;
   background: #ffffff;
   color: #174c3a;
   font-family: inherit;
-  font-size: 17px;
+  font-size: 15px;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .pf-group input:focus,
 .pf-group select:focus {
-  border-color: #c4a467;
-  box-shadow: 0 0 0 3px rgba(196, 164, 103, 0.12);
+  border-color: var(--color-accent-blue);
+  box-shadow: 0 0 0 3px rgba(46, 98, 145, 0.14);
 }
 
 .pf-group input[readonly] {
-  background: #f1eee6;
-  color: #174c3a;
+  background: #ece9e2;
+  color: #36554e;
   font-weight: 600;
 }
 
@@ -84,16 +86,16 @@
   appearance: auto;
 }
 
-/* Weight row */
+/* weight row */
 
 .pf-weight-row {
   display: flex;
   width: 100%;
-  height: 64px;
+  height: 56px;
   overflow: hidden;
   background: #ffffff;
-  border: 2px solid #e2dbce;
-  border-radius: 17px;
+  border: 1px solid #cfc8bc;
+  border-radius: var(--radius-md);
 }
 
 .pf-weight-row input {
@@ -102,8 +104,8 @@
   border: none;
   border-radius: 0;
   outline: none;
-  padding: 0 25px;
-  font-size: 17px;
+  padding: 0 18px;
+  font-size: 15px;
   font-family: inherit;
 }
 
@@ -116,13 +118,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #eee3d1;
-  color: #274c3f;
+  background: var(--color-accent-blue-soft);
+  color: var(--color-accent-blue);
   font-size: 15px;
   font-weight: 600;
 }
 
-/* Confirmation */
+/* confirmation */
 
 .pf-confirmation {
   display: flex;
@@ -147,7 +149,7 @@
   cursor: pointer;
 }
 
-/* Submit */
+/* submit */
 
 .pf-submit {
   width: 100%;
@@ -157,8 +159,8 @@
   gap: 12px;
   padding: 17px;
   border: none;
-  border-radius: 15px;
-  background: #07543e;
+  border-radius: var(--radius-md);
+  background: linear-gradient(90deg, #07543e, #166b61);
   color: #ffffff;
   font-size: 16px;
   font-weight: 700;
@@ -167,7 +169,7 @@
 }
 
 .pf-submit:hover {
-  background: #003d2e;
+  background: linear-gradient(90deg, #073f30, #10564f);
 }
 
 .pf-submit:disabled {
@@ -178,19 +180,19 @@
 .pf-feedback {
   margin: -18px 0 24px;
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
 }
 
 .pf-feedback.success {
-  background: #e3f3e8;
-  color: #155b32;
+  background: var(--color-accent-blue-soft);
+  color: var(--color-accent-blue);
 }
 
 .pf-feedback.error {
-  background: #fae5e2;
-  color: #8c2a22;
+  background: var(--color-accent-terracotta-soft);
+  color: #8c3d2c;
 }
 
 .pf-ticket-cta {
@@ -212,12 +214,12 @@
   text-decoration: underline;
 }
 
-/* Responsive */
+/* responsive */
 
 @media (max-width: 650px) {
   .procurement-form {
     padding: 30px 20px;
-    border-radius: 23px;
+    border-radius: var(--radius-md);
   }
 
   .pf-title {
@@ -228,9 +230,9 @@
   .pf-group input,
   .pf-group select,
   .pf-weight-row {
-    height: 58px;
+    height: 54px;
     font-size: 16px;
-    border-radius: 15px;
+    border-radius: var(--radius-sm);
   }
 
   .pf-weight-row span {
